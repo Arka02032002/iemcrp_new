@@ -31,6 +31,7 @@ class _StudentHomeState extends State<StudentHome> {
             )
           ]
       ),
+      body: Text('data'),
     );
   }
 }
