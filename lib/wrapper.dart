@@ -12,6 +12,15 @@ class Wrapper extends StatelessWidget {
 
     final user = Provider.of<IemcrpUser?>(context);
     print(user?.uid);
+    bool isTeacher=false;
+    String? email=user?.email;
+    if(email!=null){
+    if(email.contains("iemcal")) {
+      isTeacher = true;
+    }
+    }
+    print("IS TEACHER");
+    print(isTeacher);
 
 
 
@@ -20,7 +29,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return Login();
     } else {
-      return Dashboard();
+      return Dashboard(isTeacher: isTeacher,);
     }
   }
 }

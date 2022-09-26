@@ -8,7 +8,7 @@ class AuthService{
 
   //user object based on firebase user
   IemcrpUser? _userFromFirebaseUser (User user){
-    return user!=null ? IemcrpUser(uid: user.uid):null;
+    return user!=null ? IemcrpUser(uid: user.uid, email: user.email):null;
 
   }
 
@@ -42,6 +42,8 @@ class AuthService{
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User? user = result.user;
+      // print('USER');
+      // print(user);
       return _userFromFirebaseUser(user!);
     } catch (e) {
       print(e.toString());
