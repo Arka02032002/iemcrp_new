@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "935654511469",
+    "project_id": "crp-new",
+    "storage_bucket": "crp-new.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:935654511469:android:a5e23049fcd94e384fc064",
+        "android_client_info": {
+          "package_name": "com.example.iemcrp_new"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "935654511469-aksfnam4oageru60nov5qmfnohgp1ahb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxu0PRnJ2bMLiWHl2MS4tgL5B6pKu4qCg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "935654511469-aksfnam4oageru60nov5qmfnohgp1ahb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
