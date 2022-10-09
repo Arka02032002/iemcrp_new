@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iemcrp_new/Dashboard/loading.dart';
 import 'package:iemcrp_new/services/auth.dart';
 import 'package:iemcrp_new/shared/constants.dart';
 
@@ -14,6 +15,7 @@ class _LoginState extends State<Login> {
 
   final AuthService _auth=AuthService();
   final _formKey = GlobalKey<FormState>();
+  bool loading= false;
 
 
   //text field state
@@ -23,7 +25,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading(): Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Login'),
@@ -80,7 +82,7 @@ class _LoginState extends State<Login> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
-                        // loading = true;
+                        loading = true;
                       });
                       // log(email);
                       // log(password);
@@ -89,7 +91,7 @@ class _LoginState extends State<Login> {
                       if (result == null) {
                         setState(() {
                           error = 'Could not sign in with those credentials';
-                          // loading = false;
+                          loading = false;
                         });
                       }
                     }

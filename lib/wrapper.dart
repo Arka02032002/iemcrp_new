@@ -29,7 +29,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return Login();
     } else {
-      return Dashboard(isTeacher: isTeacher,);
+      return Dashboard(isTeacher: isTeacher);
     }
   }
 }
