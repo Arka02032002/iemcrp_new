@@ -8,19 +8,46 @@ class Wrapper extends StatelessWidget {
   const Wrapper({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+
+  //  String determineRole(IemcrpUser? user) {
+  //  if(user?.creationdt==user?.lastsignindt){
+  //     // print("equal");
+  //     return 'a';
+  //   }
+  //   else
+  //     return 's';
+  // }
+
+
+  Widget build(BuildContext context){
 
     final user = Provider.of<IemcrpUser?>(context);
-    print(user?.uid);
-    bool isTeacher=false;
-    String? email=user?.email;
-    if(email!=null){
-    if(email.contains("iemcal")) {
-      isTeacher = true;
-    }
-    }
-    print("IS TEACHER");
-    print(isTeacher);
+    // print(user);
+    String role='s';
+    String? email = user?.email;
+    // print("METADATA::::\n");
+    // print(user?.creationdt);
+    // print(user?.lastsignindt);
+
+    // role= determineRole(user);
+    // if(role==null){
+      // if(user.metadata.)
+      if (email != null) {
+        if (email.contains("iemcal")) {
+          if (email == 'sourav@iemcal.com') {
+            role = 'a';
+          }
+          else {
+            role = 't';
+          }
+        }
+        else {
+          role = 's';
+        }
+      }
+    // }
+    // print("IS TEACHER");
+    // print(isTeacher);
 
 
 
@@ -29,7 +56,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return Login();
     } else {
-      return Dashboard(isTeacher: isTeacher);
+      return Dashboard(role: role);
     }
   }
 }

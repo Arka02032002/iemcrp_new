@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iemcrp_new/Dashboard/Admin/admin.dart';
 import 'package:iemcrp_new/Dashboard/loading.dart';
 import 'package:iemcrp_new/services/auth.dart';
 import 'package:iemcrp_new/shared/constants.dart';
@@ -98,7 +99,15 @@ class _LoginState extends State<Login> {
                   },
                 ),
                 SizedBox(height: 15),
-                Text(error, style: TextStyle(color: Colors.red, fontSize: 14))
+                Text(error, style: TextStyle(color: Colors.red, fontSize: 14)),
+
+                //temporary route
+                // TextButton(onPressed: (){
+                //   Navigator.push(
+                //     context,
+                //     MaterialPageRoute(builder: (context) => const Admin()),
+                //   );
+                // }, child: Text("Admin"))
               ],
             )),
 
