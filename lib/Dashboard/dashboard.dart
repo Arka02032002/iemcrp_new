@@ -13,7 +13,7 @@ class Dashboard extends StatelessWidget {
       return TeacherHome();
     }
     else {
-      return ProfilePage();
+      return StudentHome();
     }
   }
 }

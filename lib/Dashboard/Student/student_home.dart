@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:iemcrp_new/Widgets/Buttons_small.dart';
+import 'package:iemcrp_new/services/auth.dart';
 
 import '../../Widgets/Buttons_small.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+class StudentHome extends StatefulWidget {
+  const StudentHome({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  State<StudentHome> createState() => _StudentHomeState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _StudentHomeState extends State<StudentHome> {
   @override
+  AuthService _auth= AuthService();
+
+
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+          title: Text('Student'),
+          actions: <Widget>[
+            TextButton.icon(
+              icon: Icon(
+                Icons.person,
+                color: Colors.brown[800],
+              ),
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              label:
+              Text('logout', style: TextStyle(color: Colors.brown[800])),
+            )
+          ]
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Center(
