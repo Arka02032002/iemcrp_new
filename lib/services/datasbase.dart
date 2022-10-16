@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:iemcrp_new/models/students.dart';
+import 'package:iemcrp_new/models/teachers.dart';
 
 class DatabaseService {
 
@@ -27,11 +29,36 @@ class DatabaseService {
     });
   }
 
-  Stream<QuerySnapshot> get students{
-    return studentCollection.snapshots();
+  // brew list from snapshot
+  List<Teacher> _teacherListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc){
+      //print(doc.data);
+      return Teacher(
+          name: doc.get('name') ?? '',
+          email: doc.get('email') ?? '',
+          stream: doc.get('stream') ?? '',
+          salary: doc.get('salary') ?? 0
+      );
+    }).toList();
   }
-  Stream<QuerySnapshot> get teachers{
-    return studentCollection.snapshots();
+
+  List<Student> _studentListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc){
+      //print(doc.data);
+      return Student(
+          name: doc.get('name') ?? '',
+          enrollment: doc.get('enrollment no') ?? '',
+          stream: doc.get('stream') ?? '',
+          year: doc.get('year') ?? 0
+      );
+    }).toList();
+  }
+
+  Stream<List<Student>> get students{
+    return studentCollection.snapshots().map(_studentListFromSnapshot);
+  }
+  Stream<List<Teacher>> get teachers{
+    return teacherCollection.snapshots().map(_teacherListFromSnapshot);
   }
 
 
