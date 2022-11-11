@@ -3,19 +3,24 @@ import 'package:iemcrp_new/Widgets/Buttons_small.dart';
 import 'package:iemcrp_new/models/teachers.dart';
 import 'package:provider/provider.dart';
 
+import '../loading.dart';
+
 class TeacherProfile extends StatefulWidget {
-  const TeacherProfile({Key? key}) : super(key: key);
 
   @override
+
   State<TeacherProfile> createState() => _TeacherProfileState();
 }
 
 class _TeacherProfileState extends State<TeacherProfile> {
   @override
-  Widget build(BuildContext context) {
 
-    final teachers=Provider.of<List<Teacher>>(context);
-    return SingleChildScrollView(
+
+  Widget build(BuildContext context){
+
+    final teachers= Provider.of<List<Teacher>?>(context);
+
+    return teachers==null ? Loading():SingleChildScrollView(
       child: Center(
         child: Container(
           margin: const EdgeInsets.only(top: 10),

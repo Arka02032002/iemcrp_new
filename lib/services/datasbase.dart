@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:iemcrp_new/models/questions.dart';
 import 'package:iemcrp_new/models/students.dart';
 import 'package:iemcrp_new/models/teachers.dart';
 
@@ -10,6 +11,8 @@ class DatabaseService {
   //collection reference
   final CollectionReference studentCollection =FirebaseFirestore.instance.collection('students');
   final CollectionReference teacherCollection =FirebaseFirestore.instance.collection('teachers');
+  final CollectionReference questionCollection =FirebaseFirestore.instance.collection('questions');
+
 
 
   Future updateStudentData(String name,String enrollment_no, String stream, int year) async {
@@ -54,11 +57,28 @@ class DatabaseService {
     }).toList();
   }
 
+  List<Question> _questionListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc){
+      //print(doc.data);
+      return Question(
+          question: doc.get('question') ?? '',
+          opt1: doc.get('opt1') ?? '',
+          opt2: doc.get('opt2') ?? '',
+          opt3: doc.get('opt3') ?? '',
+          opt4: doc.get('opt4') ?? '',
+          correct: doc.get('correct') ?? 0
+      );
+    }).toList();
+  }
+
   Stream<List<Student>> get students{
     return studentCollection.snapshots().map(_studentListFromSnapshot);
   }
   Stream<List<Teacher>> get teachers{
     return teacherCollection.snapshots().map(_teacherListFromSnapshot);
+  }
+  Stream<List<Question>> get questions{
+    return questionCollection.snapshots().map(_questionListFromSnapshot);
   }
 
 

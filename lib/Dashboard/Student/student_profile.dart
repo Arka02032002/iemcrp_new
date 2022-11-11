@@ -3,6 +3,8 @@ import 'package:iemcrp_new/Widgets/Buttons_small.dart';
 import 'package:iemcrp_new/models/students.dart';
 import 'package:provider/provider.dart';
 
+import '../loading.dart';
+
 class StudentProfile extends StatefulWidget {
   const StudentProfile({Key? key}) : super(key: key);
 
@@ -14,8 +16,9 @@ class _StudentProfileState extends State<StudentProfile> {
   @override
   Widget build(BuildContext context) {
 
-    final students=Provider.of<List<Student>>(context);
-      return SingleChildScrollView(
+    final students=Provider.of<List<Student>?>(context);
+    // print(students[0].);
+      return students==null ? Loading():SingleChildScrollView(
         child: Center(
           child: Container(
             margin: const EdgeInsets.only(top: 10),
@@ -46,6 +49,7 @@ class _StudentProfileState extends State<StudentProfile> {
                           )),
                       Container(
                         child: Text(students[0].name,
+                          // "Arka",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
