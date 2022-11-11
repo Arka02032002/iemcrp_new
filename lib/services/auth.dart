@@ -55,7 +55,7 @@ class AuthService{
   }
 
   //register with email and password
-  Future registerWithEmailAndPassword(String email, String password) async {
+  Future registerWithEmailAndPassword(String email, String password, String name) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -67,11 +67,11 @@ class AuthService{
 
       if (email.contains("iemcal")) {
         await DatabaseService(uid: user?.uid)
-            .updateTeacherData('SSG', email, 'CSE-IOTCSBT', 30000);
+            .updateTeacherData(name, email, 'CSE-IOTCSBT', 30000);
       }
       else{
         await DatabaseService(uid: user?.uid)
-            .updateStudentData('Arka','12020002017002','CSE-IOTCSBT',3);
+            .updateStudentData(name,'12020002017002','CSE-IOTCSBT',3);
       }
 
       return _userFromFirebaseUser(user);

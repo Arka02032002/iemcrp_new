@@ -27,6 +27,7 @@ class _AdminState extends State<Admin> {
   String email = "";
   String password = "";
   String error = "";
+  String name = "";
 
   Widget build(BuildContext context) {
     return loading ? Loading(): Scaffold(
@@ -88,6 +89,16 @@ class _AdminState extends State<Admin> {
               },
             ),
             SizedBox(height: 20),
+            TextFormField(
+              decoration:
+              textInputDecoration.copyWith(hintText: 'Name'),
+              // obscureText: true,
+              validator: (val) =>
+              val!.length < 1 ? 'Name should be more thean 1 letter' : null,
+              onChanged: (val) {
+                setState(() => name = val);
+              },
+            ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: Colors.pink[400],
@@ -103,7 +114,7 @@ class _AdminState extends State<Admin> {
                   });
                   // log(email);
                   // log(password);
-                  dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                  dynamic result = await _auth.registerWithEmailAndPassword(email, password,name);
                   print(result);
                   if (result == null) {
                     setState(() {

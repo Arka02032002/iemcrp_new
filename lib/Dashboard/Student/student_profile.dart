@@ -3,6 +3,7 @@ import 'package:iemcrp_new/Widgets/Buttons_small.dart';
 import 'package:iemcrp_new/models/students.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/user.dart';
 import '../loading.dart';
 
 class StudentProfile extends StatefulWidget {
@@ -17,6 +18,8 @@ class _StudentProfileState extends State<StudentProfile> {
   Widget build(BuildContext context) {
 
     final students=Provider.of<List<Student>?>(context);
+    final user = Provider.of<IemcrpUser?>(context);
+
     // print(students[0].);
       return students==null ? Loading():SingleChildScrollView(
         child: Center(

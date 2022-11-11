@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:iemcrp_new/Widgets/Buttons_small.dart';
 import 'package:iemcrp_new/models/teachers.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/user.dart';
 import '../loading.dart';
 
 class TeacherProfile extends StatefulWidget {
@@ -19,6 +22,14 @@ class _TeacherProfileState extends State<TeacherProfile> {
   Widget build(BuildContext context){
 
     final teachers= Provider.of<List<Teacher>?>(context);
+    final user = Provider.of<IemcrpUser?>(context);
+    print("----------TEACHERS---------");
+
+    for(var teacher in teachers!){
+      if(teacher.id==user?.uid){
+        log(teacher.name);
+      }
+    }
 
     return teachers==null ? Loading():SingleChildScrollView(
       child: Center(

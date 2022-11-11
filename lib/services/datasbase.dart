@@ -37,6 +37,7 @@ class DatabaseService {
     return snapshot.docs.map((doc){
       //print(doc.data);
       return Teacher(
+          id: doc.id,
           name: doc.get('name') ?? '',
           email: doc.get('email') ?? '',
           stream: doc.get('stream') ?? '',
@@ -49,6 +50,7 @@ class DatabaseService {
     return snapshot.docs.map((doc){
       //print(doc.data);
       return Student(
+          id: doc.id,
           name: doc.get('name') ?? '',
           enrollment: doc.get('enrollment no') ?? '',
           stream: doc.get('stream') ?? '',
