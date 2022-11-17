@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:iemcrp_new/Dashboard/Student/mark_attendence.dart';
 import 'package:iemcrp_new/Widgets/Buttons_small.dart';
 import 'package:iemcrp_new/models/students.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/user.dart';
+import '../../screens/welcome/welcome_screen.dart';
 import '../loading.dart';
 
 class StudentProfile extends StatefulWidget {
@@ -19,9 +25,24 @@ class _StudentProfileState extends State<StudentProfile> {
 
     final students=Provider.of<List<Student>?>(context);
     final user = Provider.of<IemcrpUser?>(context);
+    var name="";
+    // var id="";
+    var stream="";
+    String enrollment="";
+    void getStudentData() async {
+      for (var student in students!) {
+        if (student.id == user?.uid) {
+          name = (student.name);
+          enrollment = student.enrollment;
+          stream = student.stream;
+        }
+      }
+    }
+    getStudentData();
 
     // print(students[0].);
       return students==null ? Loading():SingleChildScrollView(
+
         child: Center(
           child: Container(
             margin: const EdgeInsets.only(top: 10),
@@ -33,25 +54,31 @@ class _StudentProfileState extends State<StudentProfile> {
                     mainAxisAlignment: MainAxisAlignment.start,
 
                     children: [
-                      Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(color: const Color(
-                                  0xFF0040c2))),
-                          child: Container(
-                            width: 145,
-                            height: 145,
+
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0, right: 5),
+
+                        child: Container(
+                            width: 50,
+                            height: 50,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                image: const DecorationImage(
-                                    image: NetworkImage(
-                                        'https://images.pexels.com/photos/428364/pexels-photo-428364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
-                                    fit: BoxFit.cover)),
-                          )),
+                                border: Border.all(color: const Color(
+                                    0xFF0040c2))),
+                            child: Container(
+                              width: 145,
+                              height: 145,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  image: const DecorationImage(
+                                      image: NetworkImage(
+                                          'https://images.pexels.com/photos/428364/pexels-photo-428364.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'),
+                                      fit: BoxFit.cover)),
+                            )),
+                      ),
+                      SizedBox(width: 10,),
                       Container(
-                        child: Text(students[0].name,
+                        child: Text(name,
                           // "Arka",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
@@ -64,16 +91,17 @@ class _StudentProfileState extends State<StudentProfile> {
                   height: 35,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 48.0, right: 48),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  padding: const EdgeInsets.only(left: 28.0, right: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              'Classes',
+                              'Stream',
                               style: TextStyle(
                                   fontSize: 19,
                                   color: Colors.black,
@@ -81,19 +109,23 @@ class _StudentProfileState extends State<StudentProfile> {
                             ),
                             SizedBox(width: 5),
                             Text(
-                              '10',
+                              stream,
                               style:
                               TextStyle(fontSize: 19, color: Colors.black),
                             ),
                           ],
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
                       Container(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              'Attended',
+                              'Univ. Roll no.',
                               style: TextStyle(
                                   fontSize: 19,
                                   color: Colors.black,
@@ -101,7 +133,7 @@ class _StudentProfileState extends State<StudentProfile> {
                             ),
                             SizedBox(width: 5),
                             Text(
-                              '10',
+                              enrollment,
                               style:
                               TextStyle(fontSize: 19, color: Colors.black),
                             ),
@@ -113,10 +145,10 @@ class _StudentProfileState extends State<StudentProfile> {
                 ),
 
                 SizedBox(
-                  height: 25,
+                  height: 20,
                 ),
                 SizedBox(
-                  height: 25,
+                  height: 20,
                 ),
                 SizedBox(height: 20,),
                 Container(
@@ -125,9 +157,11 @@ class _StudentProfileState extends State<StudentProfile> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Buttons_small(
+
                         Textcolor: Colors.black,
                         BackgroundColor: Colors.grey.withOpacity(0.2),
-                        text: 'Mark Attendence',
+                        text: 'Give Attendence',
+                        ontap: () => Get.to(Mark_Attendence(),arguments: stream),
                         icon: Icons.edit,
                         size: 150,
                       ),

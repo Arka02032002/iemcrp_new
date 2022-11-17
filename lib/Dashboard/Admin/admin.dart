@@ -28,9 +28,14 @@ class _AdminState extends State<Admin> {
   String password = "";
   String error = "";
   String name = "";
+  String stream= "";
+  String enrollment= "";
+  int salary=0;
+  int year=0;
 
   Widget build(BuildContext context) {
     return loading ? Loading(): Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text("Admin"),
 
@@ -99,6 +104,50 @@ class _AdminState extends State<Admin> {
                 setState(() => name = val);
               },
             ),
+            SizedBox(height: 20),
+            TextFormField(
+              decoration:
+              textInputDecoration.copyWith(hintText: 'Stream'),
+              // obscureText: true,
+              validator: (val) =>
+              val!.length < 1 ? 'Stream should be more thean 1 letter' : null,
+              onChanged: (val) {
+                setState(() => stream = val);
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              decoration:
+              textInputDecoration.copyWith(hintText: 'Enrollment No'),
+              // obscureText: true,
+              validator: (val) =>
+              val!.length < 0 ? 'Enrollment number should be more thean 0 digit' : null,
+              onChanged: (val) {
+                setState(() => enrollment = val);
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              decoration:
+              textInputDecoration.copyWith(hintText: 'Salary'),
+              // obscureText: true,
+              validator: (val) =>
+              val!.length < 0 ? 'Salary should be more thean 1 digit' : null,
+              onChanged: (val) {
+                setState(() => salary = int.parse(val));
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              decoration:
+              textInputDecoration.copyWith(hintText: 'Year'),
+              // obscureText: true,
+              validator: (val) =>
+              val!.length <0 ? 'Year should be less thean 2 digit' : null,
+              onChanged: (val) {
+                setState(() => year = int.parse(val));
+              },
+            ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: Colors.pink[400],
@@ -114,7 +163,7 @@ class _AdminState extends State<Admin> {
                   });
                   // log(email);
                   // log(password);
-                  dynamic result = await _auth.registerWithEmailAndPassword(email, password,name);
+                  dynamic result = await _auth.registerWithEmailAndPassword(email, password,name,stream,enrollment,salary,year);
                   print(result);
                   if (result == null) {
                     setState(() {

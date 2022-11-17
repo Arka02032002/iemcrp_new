@@ -7,7 +7,7 @@ class Buttons_small extends StatelessWidget {
   final IconData icon;
   double size;
 
-  String? ontap;
+  final VoidCallback? ontap;
 
   Buttons_small({
     Key? key,
@@ -16,16 +16,14 @@ class Buttons_small extends StatelessWidget {
     required this.text,
     required this.icon,
     required this.size,
-    this.ontap,
+     this.ontap,
   }) : super(key: key);
 
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-
-      },
+      onTap: ontap,
       child: Container(
 
 

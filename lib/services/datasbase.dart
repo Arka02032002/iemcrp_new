@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:iemcrp_new/models/questions.dart';
 import 'package:iemcrp_new/models/students.dart';
 import 'package:iemcrp_new/models/teachers.dart';
+import 'package:iemcrp_new/services/code.dart';
+
+import '../models/codes.dart';
 
 class DatabaseService {
 
@@ -12,15 +15,17 @@ class DatabaseService {
   final CollectionReference studentCollection =FirebaseFirestore.instance.collection('students');
   final CollectionReference teacherCollection =FirebaseFirestore.instance.collection('teachers');
   final CollectionReference questionCollection =FirebaseFirestore.instance.collection('questions');
+  final CollectionReference codeCollection =FirebaseFirestore.instance.collection('codes');
 
 
 
-  Future updateStudentData(String name,String enrollment_no, String stream, int year) async {
+  Future updateStudentData(String name,String enrollment_no, String stream, int year,String email) async {
     return await studentCollection.doc(uid).set({
       'name': name,
       'enrollment no': enrollment_no,
       'stream' : stream,
       'year': year,
+      'email': email,
     });
   }
   Future updateTeacherData(String name,String? email, String stream, int salary) async {
@@ -30,6 +35,22 @@ class DatabaseService {
       'stream' : stream,
       'salary': salary,
     });
+  }
+  Future updateCodeData(String code, String stream) async {
+    return await codeCollection.doc(stream).set({
+      'code': code,
+    });
+  }
+
+  List<Code> _codeListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc){
+      //print(doc.data);
+      return Code(
+          code: doc.get('code') ?? '',
+          stream: doc.get('stream') ?? '',
+
+      );
+    }).toList();
   }
 
   // brew list from snapshot
@@ -54,7 +75,8 @@ class DatabaseService {
           name: doc.get('name') ?? '',
           enrollment: doc.get('enrollment no') ?? '',
           stream: doc.get('stream') ?? '',
-          year: doc.get('year') ?? 0
+          year: doc.get('year') ?? 0,
+          email: doc.get('email') ?? '',
       );
     }).toList();
   }
@@ -63,12 +85,10 @@ class DatabaseService {
     return snapshot.docs.map((doc){
       //print(doc.data);
       return Question(
+          id: doc.get('id') ?? '',
           question: doc.get('question') ?? '',
-          opt1: doc.get('opt1') ?? '',
-          opt2: doc.get('opt2') ?? '',
-          opt3: doc.get('opt3') ?? '',
-          opt4: doc.get('opt4') ?? '',
-          correct: doc.get('correct') ?? 0
+          options: doc.get('options') ?? '',
+          answer: doc.get('ans') ?? 0
       );
     }).toList();
   }
@@ -80,8 +100,14 @@ class DatabaseService {
     return teacherCollection.snapshots().map(_teacherListFromSnapshot);
   }
   Stream<List<Question>> get questions{
-    return questionCollection.snapshots().map(_questionListFromSnapshot);
+    final CollectionReference dbmsCollection =questionCollection.doc('DBMS').collection('Intro');
+    return dbmsCollection.snapshots().map(_questionListFromSnapshot);
+    // return questionCollection.doc('DBMS').collection('Intro').doc('q1');
   }
+  Stream<List<Code>> get codes{
+    return codeCollection.snapshots().map(_codeListFromSnapshot);
+  }
+
 
 
 

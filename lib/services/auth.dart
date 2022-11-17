@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:iemcrp_new/models/user.dart';
 import 'package:iemcrp_new/services/datasbase.dart';
@@ -55,7 +56,7 @@ class AuthService{
   }
 
   //register with email and password
-  Future registerWithEmailAndPassword(String email, String password, String name) async {
+  Future registerWithEmailAndPassword(String email, String password, String name, String stream, String enrollment,int salary, int year) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -63,15 +64,18 @@ class AuthService{
       print(data);
       User? user = result.user;
 
+
+
       //create a new document for th user with thr uid
 
       if (email.contains("iemcal")) {
+        FirebaseFirestore.instance.collection('students').doc(user?.uid).collection('Attendence Record');
         await DatabaseService(uid: user?.uid)
-            .updateTeacherData(name, email, 'CSE-IOTCSBT', 30000);
+            .updateTeacherData(name, email, stream, salary);
       }
       else{
         await DatabaseService(uid: user?.uid)
-            .updateStudentData(name,'12020002017002','CSE-IOTCSBT',3);
+            .updateStudentData(name,enrollment,stream,year,email);
       }
 
       return _userFromFirebaseUser(user);
