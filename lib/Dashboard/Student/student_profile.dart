@@ -26,7 +26,7 @@ class _StudentProfileState extends State<StudentProfile> {
     final students=Provider.of<List<Student>?>(context);
     final user = Provider.of<IemcrpUser?>(context);
     var name="";
-    // var id="";
+    var id="";
     var stream="";
     String enrollment="";
     void getStudentData() async {
@@ -35,10 +35,13 @@ class _StudentProfileState extends State<StudentProfile> {
           name = (student.name);
           enrollment = student.enrollment;
           stream = student.stream;
+          id=student.id;
         }
       }
     }
     getStudentData();
+    log("STUDENT-ID----"+ id);
+
 
     // print(students[0].);
       return students==null ? Loading():SingleChildScrollView(
@@ -161,7 +164,7 @@ class _StudentProfileState extends State<StudentProfile> {
                         Textcolor: Colors.black,
                         BackgroundColor: Colors.grey.withOpacity(0.2),
                         text: 'Give Attendence',
-                        ontap: () => Get.to(Mark_Attendence(),arguments: stream),
+                        ontap: () => Get.to(Mark_Attendence(),arguments: [stream,id]),
                         icon: Icons.edit,
                         size: 150,
                       ),

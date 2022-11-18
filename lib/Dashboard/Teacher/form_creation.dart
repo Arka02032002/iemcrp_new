@@ -23,6 +23,7 @@ class _Question_fromDatabaseState extends State<Question_fromDatabase> {
 
   String code="Code";
   String stream="";
+  int period=0;
 
 
 
@@ -50,6 +51,18 @@ class _Question_fromDatabaseState extends State<Question_fromDatabase> {
                 onChanged: (val){
                   setState(() {
                     stream=val;
+                  });
+
+                },
+
+              ),
+
+              SizedBox(height: 10,),
+              TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Enter Period'),
+                onChanged: (val){
+                  setState(() {
+                    period=int.parse(val);
                   });
 
                 },
@@ -88,7 +101,7 @@ class _Question_fromDatabaseState extends State<Question_fromDatabase> {
               ),
               SizedBox(height: 20,),
               ElevatedButton(onPressed: ()async {
-                final Attendence_Code ac= new Attendence_Code(stream: stream);
+                final Attendence_Code ac= new Attendence_Code(stream: stream,period: period);
                 var temp_code=await ac.generateCode();
                 print("------------");
                 log(temp_code);

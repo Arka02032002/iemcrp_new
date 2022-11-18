@@ -42,6 +42,7 @@ dependencies:
   # to handle SVGs for Android, iOS, and Web
   flutter_svg: ^0.21.0+1
   uuid: ^3.0.7
+  intl: ^0.17.0
 
   # state management, intelligent dependency injection, and route management
   get: ^4.1.4
@@ -63,7 +64,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter_icons:
-  android: "launcher_icon"
+  android : true
   ios: true
   image_path: "assets/logo.png"
 

@@ -5,13 +5,14 @@ import 'package:iemcrp_new/globals.dart' as globals;
 class Attendence_Code{
   String code="";
   String stream="";
-  Attendence_Code({required this.stream});
+  int period=0;
+  Attendence_Code({required this.stream,required this.period});
 
   var uuid=Uuid();
   DatabaseService db= new DatabaseService();
   Future generateCode() async{
     code= uuid.v1();
-    db.updateCodeData(code, stream);
+    db.updateCodeData(code, stream,period);
     // globals.code=code;
     // globals.stream=stream;
     return code;

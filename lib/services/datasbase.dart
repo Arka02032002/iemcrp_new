@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:iemcrp_new/models/questions.dart';
 import 'package:iemcrp_new/models/students.dart';
@@ -16,6 +18,7 @@ class DatabaseService {
   final CollectionReference teacherCollection =FirebaseFirestore.instance.collection('teachers');
   final CollectionReference questionCollection =FirebaseFirestore.instance.collection('questions');
   final CollectionReference codeCollection =FirebaseFirestore.instance.collection('codes');
+  // final CollectionReference Attendencecollection =FirebaseFirestore.instance.collection('students');
 
 
 
@@ -36,9 +39,17 @@ class DatabaseService {
       'salary': salary,
     });
   }
-  Future updateCodeData(String code, String stream) async {
+  Future updateCodeData(String code, String stream,int period) async {
     return await codeCollection.doc(stream).set({
       'code': code,
+      'period': period,
+    });
+  }
+  Future updateAttendenceData(int period,String cdate) async {
+    String p =period.toString();
+    log(uid!);
+    return await studentCollection.doc(uid).collection('attendance').doc(cdate).set({
+      p: true,
     });
   }
 
@@ -48,6 +59,8 @@ class DatabaseService {
       return Code(
           code: doc.get('code') ?? '',
           stream: doc.get('stream') ?? '',
+
+
 
       );
     }).toList();
@@ -77,6 +90,7 @@ class DatabaseService {
           stream: doc.get('stream') ?? '',
           year: doc.get('year') ?? 0,
           email: doc.get('email') ?? '',
+
       );
     }).toList();
   }
