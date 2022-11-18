@@ -50,7 +50,9 @@ class DatabaseService {
     log(uid!);
     return await studentCollection.doc(uid).collection('attendance').doc(cdate).set({
       p: true,
-    });
+    },      SetOptions(merge: true)
+
+    );
   }
 
   List<Code> _codeListFromSnapshot(QuerySnapshot snapshot) {
