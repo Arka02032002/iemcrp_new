@@ -76,6 +76,7 @@ class AuthService{
       else{
         await DatabaseService(uid: user?.uid)
             .updateStudentData(name,enrollment,stream,year,email);
+        // await DatabaseService(uid: user?.uid).createAttendanceData()
       }
 
       return _userFromFirebaseUser(user);

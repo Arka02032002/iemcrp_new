@@ -45,6 +45,9 @@ class DatabaseService {
       'period': period,
     });
   }
+  // Future createAttendenceData()async {
+  //
+  // }
   Future updateAttendenceData(int period,String cdate) async {
     String p =period.toString();
     log(uid!);

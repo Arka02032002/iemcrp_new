@@ -47,30 +47,8 @@ class _Mark_AttendenceState extends State<Mark_Attendence> {
 
 
 
-  // void getStream() {
-  //   var document = codeCollection.doc(studentStream);
-  //   // var docSnapshot = codeCollection.doc(studentStream).get();
-  //   // if (docSnapshot.) {
-  //   //   Map<String, dynamic>? data = docSnapshot.data();
-  //   //   var value = data?['some_field']; // <-- The value you want to retrieve.
-  //   //   // Call setState if needed.
-  //   // }
-  //   document.get().then((value) {
-  //     log("----DATA---");
-  //     // var fields=value.data();
-  //     Object? data = value.data();
-  //     data
-  //     // log(fields);
-  //     log(value.data().toString());
-  //     // value.data().forEach()
-  //
-  //     // code=fields['code'];
-  //   });
-  // }
 
 
-
-  // final CollectionReference studentCollection =FirebaseFirestore.instance.collection('students');
 
 
 
@@ -158,6 +136,7 @@ class _Mark_AttendenceState extends State<Mark_Attendence> {
         // log(codes!["code"]);
         return Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.green[700],
             title:Text("Mark Attendence"),
           ),
           body: Container(

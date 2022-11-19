@@ -1,9 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iemcrp_new/Dashboard/Student/mark_attendence.dart';
+import 'package:iemcrp_new/Dashboard/Student/viewAttendance.dart';
 import 'package:iemcrp_new/Widgets/Buttons_small.dart';
 import 'package:iemcrp_new/models/students.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +28,7 @@ class _StudentProfileState extends State<StudentProfile> {
     final students=Provider.of<List<Student>?>(context);
     final user = Provider.of<IemcrpUser?>(context);
     var name="";
-    var id="";
+    String id="";
     var stream="";
     String enrollment="";
     void getStudentData() async {
@@ -54,7 +56,7 @@ class _StudentProfileState extends State<StudentProfile> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
                     children: [
 
@@ -86,7 +88,15 @@ class _StudentProfileState extends State<StudentProfile> {
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
-                      ),
+                      ),                      SizedBox(width: 10,),
+
+                      IconButton(onPressed: (){
+                        Get.to(ViewAttendance(),arguments: id);
+                      },
+                        icon: FaIcon(FontAwesomeIcons.solidCalendarDays,
+                          color: Colors.amber,
+                          size: 28,
+                        ),),
                     ],
                   ),
                 ),

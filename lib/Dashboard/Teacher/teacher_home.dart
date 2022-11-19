@@ -25,7 +25,10 @@ class _TeacherHomeState extends State<TeacherHome> {
         initialData: null,
         catchError: (_, __) => null,
         child: Scaffold(
-          appBar: AppBar(title: Text('Teacher'), actions: <Widget>[
+          appBar: AppBar(
+            backgroundColor: Colors.green[700],
+              title: Text('Teacher'),
+              actions: <Widget>[
             TextButton.icon(
               icon: Icon(
                 Icons.person,

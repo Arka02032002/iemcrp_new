@@ -31,6 +31,7 @@ class _Question_fromDatabaseState extends State<Question_fromDatabase> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green[700],
         title: Text("Create Attendence"),
       ),
       body: Container(

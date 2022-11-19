@@ -37,6 +37,7 @@ class _AdminState extends State<Admin> {
     return loading ? Loading(): Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        backgroundColor: Colors.green[700],
         title: Text("Admin"),
 
         actions: <Widget>[

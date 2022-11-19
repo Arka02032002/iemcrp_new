@@ -26,6 +26,7 @@ class _StudentHomeState extends State<StudentHome> {
     catchError: (_, __) => null,
     child: Scaffold(
       appBar: AppBar(
+          backgroundColor: Colors.green[700],
           title: Text('Student'),
           actions: <Widget>[
             TextButton.icon(

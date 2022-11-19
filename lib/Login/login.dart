@@ -29,6 +29,7 @@ class _LoginState extends State<Login> {
     return loading ? Loading(): Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.green[700],
         title: Text('Login'),
       ),
       body: Container(
