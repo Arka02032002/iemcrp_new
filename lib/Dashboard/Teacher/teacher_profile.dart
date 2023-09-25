@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../../models/user.dart';
 import '../../screens/welcome/welcome_screen.dart';
 import '../loading.dart';
+import 'assignment.dart';
 
 class TeacherProfile extends StatefulWidget {
 
@@ -168,7 +169,8 @@ class _TeacherProfileState extends State<TeacherProfile> {
                     Buttons_small(
                       Textcolor: Colors.black,
                       BackgroundColor: Colors.grey.withOpacity(0.2),
-                      text: 'Edit',
+                      text: 'Give Assignment',
+                      ontap: () => Get.to(Assignment_stream()),
                       icon: Icons.save,
                       size: 150,
                     ),

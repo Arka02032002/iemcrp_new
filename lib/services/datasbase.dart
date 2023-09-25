@@ -18,7 +18,8 @@ class DatabaseService {
   final CollectionReference teacherCollection =FirebaseFirestore.instance.collection('teachers');
   final CollectionReference questionCollection =FirebaseFirestore.instance.collection('questions');
   final CollectionReference codeCollection =FirebaseFirestore.instance.collection('codes');
-  // final CollectionReference Attendencecollection =FirebaseFirestore.instance.collection('students');
+  final CollectionReference assignmentCollection=FirebaseFirestore.instance.collection('assignments');
+
 
 
 
@@ -56,6 +57,12 @@ class DatabaseService {
     },      SetOptions(merge: true)
 
     );
+  }
+  Future updateAssignmentData(String stream,String desc,String subject,String fileUrl) async{
+    return await assignmentCollection.doc(stream).collection(subject).doc('Assignment').set({
+      'Description': desc,
+      'FileUrl': fileUrl
+    });
   }
 
   List<Code> _codeListFromSnapshot(QuerySnapshot snapshot) {
