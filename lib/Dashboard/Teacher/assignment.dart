@@ -30,6 +30,7 @@ class _Assignment_streamState extends State<Assignment_stream> {
   String teacher=Get.arguments[0];
   bool isselected=false;
   String buttonText="Browse";
+  int year=0;
 
   PlatformFile? pickedFile;
   DatabaseService db =new DatabaseService();
@@ -68,7 +69,7 @@ class _Assignment_streamState extends State<Assignment_stream> {
     log(stream);
     log(desc);
     log(fileurl);
-    Assignment assignment= await new Assignment(desc: desc, subject: subject, teacher: teacher, stream: stream,fileUrl: fileurl);
+    Assignment assignment= await new Assignment(desc: desc, subject: subject, teacher: teacher, stream: stream,fileUrl: fileurl,year: year);
     await db.updateAssignmentData(assignment);
     setState(() {
       submissionStatus="Assignment Submitted";
@@ -88,6 +89,16 @@ class _Assignment_streamState extends State<Assignment_stream> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
+              TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Year'),
+                onChanged: (val){
+                  setState(() {
+                    year=int.parse(val);
+                  });
+                },
+              ),
+              SizedBox(height: 10,),
 
               TextFormField(
               decoration: textInputDecoration.copyWith(hintText: 'Stream'),

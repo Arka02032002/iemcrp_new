@@ -29,6 +29,7 @@ class _Assignment_streamState extends State<Assignment_stream> {
   String enrollment=Get.arguments[2];
   bool isselected=false;
   String buttonText="Browse";
+  int year=Get.arguments[5];
 
 
   PlatformFile? pickedFile;
@@ -68,8 +69,9 @@ class _Assignment_streamState extends State<Assignment_stream> {
     log(stream);
     log(desc);
     log(fileurl);
-    AssignmentSubmission assignment= await new AssignmentSubmission(id: id,desc: desc, subject: subject, name: name, stream: stream,fileUrl: fileurl, enrollment: enrollment);
+    AssignmentSubmission assignment= await new AssignmentSubmission(id: id,desc: desc, subject: subject, name: name, stream: stream,fileUrl: fileurl, enrollment: enrollment,year: year);
     await db.updateAssignmentSubmissionData(assignment);
+    print("Successful");
     Navigator.of(context).pop();
     setState(() {
       submissionStatus="Assignment Submitted";

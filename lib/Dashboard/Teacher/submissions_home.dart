@@ -17,6 +17,7 @@ class _SubmissionsState extends State<Submissions> {
   String tid = Get.arguments[0];
   List stream = Get.arguments[1];
   String subject = Get.arguments[2];
+  int year=Get.arguments[3];
   @override
   Widget build(BuildContext context) {
     print(stream);
@@ -31,7 +32,7 @@ class _SubmissionsState extends State<Submissions> {
           child: Column(
               children: [
                 for(String stream in stream)
-                  Submissions_data(tid,stream,subject)
+                  Submissions_data(tid,stream,subject,year)
               ]
           ),
         )

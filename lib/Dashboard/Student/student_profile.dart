@@ -229,7 +229,7 @@ class _StudentProfileState extends State<StudentProfile> {
                         Textcolor: Colors.black,
                         BackgroundColor: Colors.grey.withOpacity(0.2),
                         text: 'Assignments',
-                        ontap: () => Get.to(View_Assignments(),arguments: [id,stream,name,enrollment]),
+                        ontap: () => Get.to(View_Assignments(),arguments: [id,stream,name,enrollment,year]),
                         // ontap: () => Get.to(AssignmentCard()),
 
                         icon: Icons.assignment,

@@ -13,8 +13,9 @@ class Submissions_data extends StatelessWidget {
   //
   // String subject = Get.arguments[2];
   String tid,stream,subject;
+  int year;
 
-  Submissions_data(this.tid,this.stream,this.subject);
+  Submissions_data(this.tid,this.stream,this.subject,this.year);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class Submissions_data extends StatelessWidget {
         stream: FirebaseFirestore.instance
             .collection('assignments')
             .doc(stream)
-            .collection('Assignment')
+            .collection(year.toString())
             .snapshots()
         ,
         builder: (context, snapshot) {

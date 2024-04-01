@@ -24,9 +24,10 @@ class AssignmentCard extends StatelessWidget {
   List? stream=[];
   List students=[];
   String buttonText='';
+  int? year=0;
 
 
-  AssignmentCard({required this.subject, required this.desc, this.url,required this.isStudent,this.sid,this.name,this.enrollment,this.stream,this.tid});
+  AssignmentCard({required this.subject, required this.desc, this.url,required this.isStudent,this.sid,this.name,this.enrollment,this.stream,this.tid,this.year});
 
   @override
   Widget build(BuildContext context) {
@@ -78,11 +79,12 @@ class AssignmentCard extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: (){
+                            print("Student submit");
                             if(isStudent)
-                            Get.to(Assignment_stream(),arguments: [sid,name,enrollment,stream?[0],subject]);
+                            Get.to(Assignment_stream(),arguments: [sid,name,enrollment,stream?[0],subject,year]);
                             else
                               // for(String stream in stream!)
-                              Get.to(Submissions(),arguments: [tid,stream,subject]);
+                              Get.to(Submissions(),arguments: [tid,stream,subject,year]);
                           },
                           child: Text(buttonText),
                         ),

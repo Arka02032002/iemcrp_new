@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
@@ -250,7 +251,7 @@ class _RegisterFaceState extends State<RegisterFace> {
           _image != null
               ? isLoading? SizedBox(
               width: screenWidth,
-              height: screenHeight / 2.25,child: Center(child: CircularProgressIndicator(),)):Image.file(
+              height: screenHeight / 2.25,child: Center(child: SpinKitCircle(color: Colors.green,size:50),)):Image.file(
                   _image!,
                   width: screenWidth,
                   height: screenHeight / 2,

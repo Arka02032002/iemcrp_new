@@ -19,9 +19,12 @@ class _View_AssignmentsState extends State<View_Assignments> {
   String id=Get.arguments[0];
   String name=Get.arguments[2];
   String enrollment=Get.arguments[3];
+  int year=Get.arguments[4];
 
   @override
   Widget build(BuildContext context) {
+    print(year);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[700],
@@ -29,7 +32,7 @@ class _View_AssignmentsState extends State<View_Assignments> {
       ),
       body: SingleChildScrollView(
         child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('assignments').doc(stream).collection('Assignment').snapshots(),
+          stream: FirebaseFirestore.instance.collection('assignments').doc(stream).collection(year.toString()).snapshots(),
           builder: (context,snapshot){
             if (!snapshot.hasData) {
               return Loading();
@@ -44,21 +47,13 @@ class _View_AssignmentsState extends State<View_Assignments> {
             }
             else{
               var doc=snapshot.data!.docs;
-              print(!doc[2]['students'].contains(id));
-              // for(var element in doc){
-              //   try {
-              //     print(element['students'].contains(7667578));
-              //   }
-              //   catch(e){
-              //     print("Field doesnot exist");
-              //   }
-              // }
+
               return Column(
                 children: <Widget>[
               for(var element in doc)
 
                 if(!element['students'].contains(id))
-                AssignmentCard(subject: element.id,desc: element['Description'],url: element['FileUrl'], isStudent: true,sid: id,name: name,enrollment: enrollment,stream: [stream],)
+                AssignmentCard(subject: element.id,desc: element['Description'],url: element['FileUrl'], isStudent: true,sid: id,name: name,enrollment: enrollment,stream: [stream],year:year)
                 // Text(element.id+'\n'+element['Description']+'\n'+element['FileUrl'])
                 ],
               );

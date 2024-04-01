@@ -87,15 +87,16 @@ class DatabaseService {
     );
   }
   Future updateAssignmentData(Assignment assignment) async{
-    await assignmentCollection.doc(assignment.stream).collection('Assignment').doc(assignment.subject).set({
+    await assignmentCollection.doc(assignment.stream).collection(assignment.year.toString()).doc(assignment.subject).set({
       'Description': assignment.desc,
       'FileUrl': assignment.fileUrl,
       'Assigned By': assignment.teacher,
       'students': [],
       'submissions': []
     });
+    var year=assignment.year;
     print(assignment.teacher);
-    await teacherCollection.doc(assignment.teacher).collection('Assignments').doc(assignment.subject).set({
+    await teacherCollection.doc(assignment.teacher).collection('Assignments-year $year').doc(assignment.subject).set({
       'Description': assignment.desc,
       'FileUrl': assignment.fileUrl,
       'stream': FieldValue.arrayUnion([assignment.stream]),
@@ -112,7 +113,7 @@ class DatabaseService {
       'Enrollment': assignment.enrollment,
     };
     submissions.add(map);
-    await assignmentCollection.doc(assignment.stream).collection('Assignment').doc(assignment.subject).update({
+    await assignmentCollection.doc(assignment.stream).collection(assignment.year.toString()).doc(assignment.subject).update({
       'submissions': FieldValue.arrayUnion(submissions),
       'students': FieldValue.arrayUnion([assignment.id]),
       },
