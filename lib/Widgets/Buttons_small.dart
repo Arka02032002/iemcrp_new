@@ -33,8 +33,10 @@ class Buttons_small extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon),
-              Text(text,style: TextStyle(color: Textcolor),),
+              Icon(icon,
+              size: 40,),
+              Text(text,style: TextStyle(color: Textcolor,
+              fontSize: 16),),
             ],
           ),
         ),

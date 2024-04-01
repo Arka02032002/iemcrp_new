@@ -1,11 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:iemcrp_new/services/code.dart';
+import 'package:get/get.dart';
+import 'package:iemcrp_new/models/assignments.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:iemcrp_new/services/datasbase.dart';
 import '../../shared/constants.dart';
@@ -20,33 +20,60 @@ class Assignment_stream extends StatefulWidget {
 class _Assignment_streamState extends State<Assignment_stream> {
 
   String desc="";
-  String stream="";
+  String stream=Get.arguments[1];
   String subject="";
   String fileurl="";
+  // String stream="";
   String filename="";
+  String uploadingStatus="";
+  String submissionStatus="";
+  String teacher=Get.arguments[0];
+  bool isselected=false;
+  String buttonText="Browse";
+
   PlatformFile? pickedFile;
   DatabaseService db =new DatabaseService();
   Future browseFile()async{
-    final result = await FilePicker.platform.pickFiles();
-    if(result==null)
-      return;
-    setState(() {
-      pickedFile=result.files.single;
-      filename=pickedFile!.name;
-    });
+    if(isselected)
+      uploadFile();
+    else {
+      final result = await FilePicker.platform.pickFiles();
+      if (result == null)
+        return;
+      setState(() {
+        isselected=true;
+        buttonText='Upload';
+        pickedFile = result.files.single;
+        filename = pickedFile!.name;
+      });
+    }
   }
   Future uploadFile()async{
+    setState(() {
+      uploadingStatus="Uploading...";
+    });
     final path='assignments/${pickedFile?.name}';
     final File file=File(pickedFile!.path!);
     final ref= FirebaseStorage.instance.ref().child(path);
-    ref.putFile(file);
+    await ref.putFile(file);
     fileurl=await ref.getDownloadURL();
+    setState(() {
+      uploadingStatus="Uploaded $filename";
+    });
     log(stream);
     log(desc);
     log(fileurl);
   }
   Future submitAssignment() async{
-    db.updateAssignmentData(stream,desc,subject,fileurl);
+    log(stream);
+    log(desc);
+    log(fileurl);
+    Assignment assignment= await new Assignment(desc: desc, subject: subject, teacher: teacher, stream: stream,fileUrl: fileurl);
+    await db.updateAssignmentData(assignment);
+    setState(() {
+      submissionStatus="Assignment Submitted";
+    });
+
   }
 
   @override
@@ -61,14 +88,15 @@ class _Assignment_streamState extends State<Assignment_stream> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: 'Stream'),
-                onChanged: (val){
-                  setState(() {
-                    stream=val;
-                  });
-                },
-              ),
+              decoration: textInputDecoration.copyWith(hintText: 'Stream'),
+              onChanged: (val){
+                setState(() {
+                  stream=val;
+                });
+              },
+            ),
               SizedBox(height: 10,),
               TextFormField(
                 decoration: textInputDecoration.copyWith(hintText: 'Subject'),
@@ -87,18 +115,30 @@ class _Assignment_streamState extends State<Assignment_stream> {
                   });
                 },
               ),
-              SizedBox(height: 10,),
-              ElevatedButton(onPressed: browseFile, child: Text("Browse")),
-              SizedBox(height: 10,),
-              Text('Attached File: '+filename),
-              SizedBox(height: 5,),
-              ElevatedButton(onPressed: uploadFile, child: Text("Upload")),
-              SizedBox(height: 15,),
+              SizedBox(height: 20,),
+              Row(children: [
+                SizedBox(
+                  width: 300,
+                  height: 35,
+                  child: Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(filename),
+                    ),
+                    color: Colors.grey[200],
+                    borderOnForeground: false,
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                  ),
+                ),
+                ElevatedButton(onPressed: browseFile, child: Text(buttonText)),
+              ],),
+              SizedBox(height: 3,),
+              Text(uploadingStatus),
+              SizedBox(height: 20,),
               ElevatedButton(onPressed: submitAssignment, child: Text("Submit")),
-
-
-
-
+              SizedBox(height: 3,),
+              Text(submissionStatus),
             ],
 
           ),

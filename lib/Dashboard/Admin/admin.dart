@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iemcrp_new/Dashboard/loading.dart';
 import 'package:iemcrp_new/services/auth.dart';
-import 'package:iemcrp_new/services/datasbase.dart';
 import 'package:iemcrp_new/shared/constants.dart';
-import 'package:provider/provider.dart';
 
 
 
@@ -30,12 +28,14 @@ class _AdminState extends State<Admin> {
   String name = "";
   String stream= "";
   String enrollment= "";
+  String course="";
   int salary=0;
   int year=0;
+  String phone='';
 
   Widget build(BuildContext context) {
     return loading ? Loading(): Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         backgroundColor: Colors.green[700],
         title: Text("Admin"),
@@ -54,21 +54,8 @@ class _AdminState extends State<Admin> {
           )
         ]
       ),
-      body: Container(
+      body: SingleChildScrollView(
 
-        //Sign In Anonymously
-        // child: TextButton(
-        //   onPressed: () async{
-        //     dynamic result = await _auth.signInAnom();
-        //     if(result==null){
-        //       print("error signing in");
-        //     }
-        //     else{
-        //       print(result.uid);
-        //     }
-        //   },
-        //   child: Text('Sign In Anom'),
-        // ),
 
         //Sign in with email and password
         child: Form(
@@ -77,6 +64,7 @@ class _AdminState extends State<Admin> {
           children: [
             SizedBox(height: 20),
             TextFormField(
+              scrollPadding: EdgeInsets.only(bottom:40),
               decoration: textInputDecoration.copyWith(hintText: 'Email'),
               validator: (val) => val!.isEmpty ? 'Enter an email' : null,
               onChanged: (val) {
@@ -85,6 +73,7 @@ class _AdminState extends State<Admin> {
             ),
             SizedBox(height: 20),
             TextFormField(
+              scrollPadding: EdgeInsets.only(bottom:40),
               decoration:
               textInputDecoration.copyWith(hintText: 'Password'),
               obscureText: true,
@@ -96,6 +85,19 @@ class _AdminState extends State<Admin> {
             ),
             SizedBox(height: 20),
             TextFormField(
+              scrollPadding: EdgeInsets.only(bottom:40),
+              decoration:
+              textInputDecoration.copyWith(hintText: 'Phone No.'),
+              obscureText: false,
+              validator: (val) =>
+              (val!.length < 7 || val!.length >15) ? 'Not a valid phone no.' : null,
+              onChanged: (val) {
+                setState(() => phone = val);
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              scrollPadding: EdgeInsets.only(bottom:40),
               decoration:
               textInputDecoration.copyWith(hintText: 'Name'),
               // obscureText: true,
@@ -107,6 +109,7 @@ class _AdminState extends State<Admin> {
             ),
             SizedBox(height: 20),
             TextFormField(
+              scrollPadding: EdgeInsets.only(bottom:40),
               decoration:
               textInputDecoration.copyWith(hintText: 'Stream'),
               // obscureText: true,
@@ -118,6 +121,19 @@ class _AdminState extends State<Admin> {
             ),
             SizedBox(height: 20),
             TextFormField(
+              scrollPadding: EdgeInsets.only(bottom:40),
+              decoration:
+              textInputDecoration.copyWith(hintText: 'Course'),
+              // obscureText: true,
+              validator: (val) =>
+              val!.length < 1 ? 'Course should be more thean 1 letter' : null,
+              onChanged: (val) {
+                setState(() => course = val);
+              },
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              scrollPadding: EdgeInsets.only(bottom:40),
               decoration:
               textInputDecoration.copyWith(hintText: 'Enrollment No'),
               // obscureText: true,
@@ -129,6 +145,7 @@ class _AdminState extends State<Admin> {
             ),
             SizedBox(height: 20),
             TextFormField(
+              scrollPadding: EdgeInsets.only(bottom:40),
               decoration:
               textInputDecoration.copyWith(hintText: 'Salary'),
               // obscureText: true,
@@ -140,6 +157,7 @@ class _AdminState extends State<Admin> {
             ),
             SizedBox(height: 20),
             TextFormField(
+              scrollPadding: EdgeInsets.only(bottom:40),
               decoration:
               textInputDecoration.copyWith(hintText: 'Year'),
               // obscureText: true,
@@ -164,7 +182,7 @@ class _AdminState extends State<Admin> {
                   });
                   // log(email);
                   // log(password);
-                  dynamic result = await _auth.registerWithEmailAndPassword(email, password,name,stream,enrollment,salary,year);
+                  dynamic result = await _auth.registerWithEmailAndPassword(email, password,name,stream,enrollment,salary,year,course,phone);
                   print(result);
                   if (result == null) {
                     setState(() {

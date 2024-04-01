@@ -1,16 +1,13 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iemcrp_new/Dashboard/Teacher/form_creation.dart';
+import 'package:iemcrp_new/Dashboard/Teacher/mark_attendance.dart';
+import 'package:iemcrp_new/Dashboard/Teacher/view_assignments.dart';
 import 'package:iemcrp_new/Widgets/Buttons_small.dart';
 import 'package:iemcrp_new/models/teachers.dart';
 import 'package:provider/provider.dart';
-
 import '../../models/user.dart';
-import '../../screens/welcome/welcome_screen.dart';
 import '../loading.dart';
 import 'assignment.dart';
 
@@ -22,6 +19,7 @@ class TeacherProfile extends StatefulWidget {
 }
 
 class _TeacherProfileState extends State<TeacherProfile> {
+
   @override
 
 
@@ -162,16 +160,16 @@ class _TeacherProfileState extends State<TeacherProfile> {
                       Textcolor: Colors.black,
                       BackgroundColor: Colors.grey.withOpacity(0.2),
                       text: 'Create Attendence',
-                      ontap: () => Get.to(Question_fromDatabase()),
-                      icon: Icons.edit,
+                      ontap: () => Get.to(Create_Attendance()),
+                      icon: Icons.playlist_add_circle_outlined,
                       size: 150,
                     ),
                     Buttons_small(
                       Textcolor: Colors.black,
                       BackgroundColor: Colors.grey.withOpacity(0.2),
-                      text: 'Give Assignment',
-                      ontap: () => Get.to(Assignment_stream()),
-                      icon: Icons.save,
+                      text: 'New Assignment',
+                      ontap: () => Get.to(Assignment_stream(),arguments: [user?.uid,stream]),
+                      icon: Icons.assignment_add,
                       size: 150,
                     ),
                   ],
@@ -188,15 +186,17 @@ class _TeacherProfileState extends State<TeacherProfile> {
                     Buttons_small(
                       Textcolor: Colors.black,
                       BackgroundColor: Colors.grey.withOpacity(0.2),
-                      text: 'Edit',
-                      icon: Icons.edit,
+                      text: 'All Assignments',
+                      ontap: () => Get.to(ViewAssignment(),arguments: [user?.uid,stream]),
+                      icon: Icons.assignment,
                       size: 150,
                     ),
                     Buttons_small(
                       Textcolor: Colors.black,
                       BackgroundColor: Colors.grey.withOpacity(0.2),
-                      text: 'Edit',
-                      icon: Icons.save,
+                      text: 'Mark Attendance',
+                      ontap: () => Get.to(MarkAttendance(),),
+                      icon: Icons.camera_alt_outlined,
                       size: 150,
                     ),
                   ],
@@ -214,7 +214,7 @@ class _TeacherProfileState extends State<TeacherProfile> {
                       Textcolor: Colors.black,
                       BackgroundColor: Colors.grey.withOpacity(0.2),
                       text: 'Edit',
-                      icon: Icons.edit,
+                      icon: Icons.save,
                       size: 150,
                     ),
                     Buttons_small(

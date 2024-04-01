@@ -10,7 +10,8 @@ class CustomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Color present = Color(0xff00e676);
     Color absent =Color(0xffd32f2f);
-    if(isPresent==true) {
+    Color noclass=Colors.grey;
+    if(isPresent=="attended") {
       return Card(
         // margin: EdgeInsets.all(5),
         elevation: null,
@@ -26,6 +27,22 @@ class CustomCard extends StatelessWidget {
         color: present,
       );
     }
+    else if(isPresent=="not attended"){
+      return Card(
+        // margin: EdgeInsets.all(5),
+        elevation: null,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 0,top: 0,right: 0,bottom: 15),
+          child: Text("Period- $period",
+            // textAlign: TextAlign.center,
+            style: TextStyle(
+              height: 2,
+              fontSize: 25,
+            ),),
+        ),
+        color: absent,
+      );
+    }
     else{
       return Card(
         margin: EdgeInsets.all(8),
@@ -39,7 +56,7 @@ class CustomCard extends StatelessWidget {
               fontSize: 25,
             ),),
         ),
-        color: absent,
+        color: noclass,
 
       );
     }

@@ -1,2 +1,0 @@
-String code="";
-String stream="";

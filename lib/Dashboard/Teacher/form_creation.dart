@@ -1,13 +1,13 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iemcrp_new/services/code.dart';
 
 import '../../shared/constants.dart';
 
-class Question_fromDatabase extends StatefulWidget {
+class Create_Attendance extends StatefulWidget {
   // get code => null;
 
 
@@ -15,14 +15,15 @@ class Question_fromDatabase extends StatefulWidget {
   @override
 
 
-  State<Question_fromDatabase> createState() => _Question_fromDatabaseState();
+  State<Create_Attendance> createState() => _Create_AttendanceState();
 }
 
-class _Question_fromDatabaseState extends State<Question_fromDatabase> {
+class _Create_AttendanceState extends State<Create_Attendance> {
 
   String code="Code";
   String stream="";
   int period=0;
+  int year=0;
 
 
 
@@ -51,6 +52,18 @@ class _Question_fromDatabaseState extends State<Question_fromDatabase> {
                 onChanged: (val){
                   setState(() {
                     stream=val;
+                  });
+
+                },
+
+              ),
+
+              SizedBox(height: 10,),
+              TextFormField(
+                decoration: textInputDecoration.copyWith(hintText: 'Enter Year'),
+                onChanged: (val){
+                  setState(() {
+                    year=int.parse(val);
                   });
 
                 },
@@ -101,7 +114,7 @@ class _Question_fromDatabaseState extends State<Question_fromDatabase> {
               ),
               SizedBox(height: 20,),
               ElevatedButton(onPressed: ()async {
-                final Attendence_Code ac= new Attendence_Code(stream: stream,period: period);
+                final Attendence_Code ac= new Attendence_Code(stream: stream,period: period,year:year);
                 var temp_code=await ac.generateCode();
                 print("------------");
                 log(temp_code);
@@ -109,6 +122,7 @@ class _Question_fromDatabaseState extends State<Question_fromDatabase> {
                   code=temp_code;
 
                 });
+
               },
                   child: Text("Generate Code",
                     style: TextStyle(

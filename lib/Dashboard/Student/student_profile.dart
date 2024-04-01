@@ -4,14 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:iemcrp_new/Dashboard/Student/check_attendance.dart';
+import 'package:iemcrp_new/Dashboard/Student/fees_dashboard.dart';
 import 'package:iemcrp_new/Dashboard/Student/mark_attendence.dart';
+import 'package:iemcrp_new/Dashboard/Student/register_face.dart';
 import 'package:iemcrp_new/Dashboard/Student/viewAttendance.dart';
+import 'package:iemcrp_new/Dashboard/Student/viewPayment.dart';
+import 'package:iemcrp_new/Dashboard/Student/view_assignments.dart';
 import 'package:iemcrp_new/Widgets/Buttons_small.dart';
 import 'package:iemcrp_new/models/students.dart';
+import 'package:iemcrp_new/services/datasbase.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/user.dart';
-import '../../screens/welcome/welcome_screen.dart';
 import '../loading.dart';
 
 class StudentProfile extends StatefulWidget {
@@ -22,27 +27,46 @@ class StudentProfile extends StatefulWidget {
 }
 
 class _StudentProfileState extends State<StudentProfile> {
+  var name="";
+  String id="";
+  var stream="";
+  var course="";
+  String email='';
+  String enrollment="";
+  var phone="";
+  int year=0;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
 
     final students=Provider.of<List<Student>?>(context);
     final user = Provider.of<IemcrpUser?>(context);
-    var name="";
-    String id="";
-    var stream="";
-    String enrollment="";
+    // Student student=DatabaseService().getStudentById(user!.uid);
+
+    // print(user!.uid);
+
     void getStudentData() async {
+
       for (var student in students!) {
         if (student.id == user?.uid) {
-          name = (student.name);
+          id=student.id;
+          name = student.name;
           enrollment = student.enrollment;
           stream = student.stream;
           id=student.id;
+          course=student.course;
+          email=student.email;
+          phone=student.phone;
+          year=student.year;
+          print(year);
         }
       }
+      // setState(() {
+      //
+      // });
     }
     getStudentData();
     log("STUDENT-ID----"+ id);
+    log("STUDENT--YEAR"+year.toString());
 
 
     // print(students[0].);
@@ -114,6 +138,29 @@ class _StudentProfileState extends State<StudentProfile> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
+                              'Course',
+                              style: TextStyle(
+                                  fontSize: 19,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              course,
+                              style:
+                              TextStyle(fontSize: 19, color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
                               'Stream',
                               style: TextStyle(
                                   fontSize: 19,
@@ -158,10 +205,10 @@ class _StudentProfileState extends State<StudentProfile> {
                 ),
 
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 SizedBox(height: 20,),
                 Container(
@@ -173,16 +220,20 @@ class _StudentProfileState extends State<StudentProfile> {
 
                         Textcolor: Colors.black,
                         BackgroundColor: Colors.grey.withOpacity(0.2),
-                        text: 'Give Attendence',
-                        ontap: () => Get.to(Mark_Attendence(),arguments: [stream,id]),
-                        icon: Icons.edit,
+                        text: 'Mark Attendance',
+                        ontap: () => Get.to(Mark_Attendence(),arguments: [stream,id,year]),
+                        icon: Icons.playlist_add_check_circle_outlined,
                         size: 150,
                       ),
                       Buttons_small(
                         Textcolor: Colors.black,
                         BackgroundColor: Colors.grey.withOpacity(0.2),
-                        text: 'Edit',
-                        icon: Icons.save,
+                        text: 'Assignments',
+                        ontap: () => Get.to(View_Assignments(),arguments: [id,stream,name,enrollment]),
+                        // ontap: () => Get.to(AssignmentCard()),
+
+                        icon: Icons.assignment,
+
                         size: 150,
                       ),
 
@@ -200,15 +251,17 @@ class _StudentProfileState extends State<StudentProfile> {
                       Buttons_small(
                         Textcolor: Colors.black,
                         BackgroundColor: Colors.grey.withOpacity(0.2),
-                        text: 'Edit',
-                        icon: Icons.edit,
+                        text: 'Check Attendance ',
+                        icon: Icons.percent_rounded,
+                        ontap: () => Get.to(CheckAttendance(),arguments: id),
                         size: 150,
                       ),
                       Buttons_small(
                         Textcolor: Colors.black,
                         BackgroundColor: Colors.grey.withOpacity(0.2),
-                        text: 'Edit',
-                        icon: Icons.save,
+                        text: 'Pay Fees',
+                        ontap: ()=> Get.to(FeesDashboard(),arguments: [course,email,phone,id,name,enrollment,stream,year]),
+                        icon: Icons.currency_rupee_rounded,
                         size: 150,
                       ),
 
@@ -224,15 +277,17 @@ class _StudentProfileState extends State<StudentProfile> {
                       Buttons_small(
                         Textcolor: Colors.black,
                         BackgroundColor: Colors.grey.withOpacity(0.2),
-                        text: 'Edit',
-                        icon: Icons.edit,
+                        text: 'Payment Records',
+                        ontap: ()=> Get.to(ViewPayments(),arguments: id),
+                        icon: Icons.list_alt,
                         size: 150,
                       ),
                       Buttons_small(
                         Textcolor: Colors.black,
                         BackgroundColor: Colors.grey.withOpacity(0.2),
-                        text: 'Edit',
-                        icon: Icons.save,
+                        text: 'Register FaceID',
+                        ontap: ()=> Get.to(RegisterFace(),arguments: [id,course,stream,year]),
+                        icon: Icons.account_circle,
                         size: 150,
                       ),
 

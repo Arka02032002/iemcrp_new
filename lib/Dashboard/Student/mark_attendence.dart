@@ -3,17 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iemcrp_new/Dashboard/loading.dart';
-import 'package:iemcrp_new/globals.dart' as globals;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:iemcrp_new/services/code.dart';
+
 import 'package:iemcrp_new/services/datasbase.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:iemcrp_new/Dashboard/Teacher/form_creation.dart';
-
-import '../../models/codes.dart';
-import '../../models/students.dart';
 import '../../models/user.dart';
 import '../../shared/constants.dart';
 
@@ -28,7 +23,6 @@ class Mark_Attendence extends StatefulWidget {
 class _Mark_AttendenceState extends State<Mark_Attendence> {
 
 
-  @override
   // DatabaseService db = new DatabaseService();
 
 
@@ -43,6 +37,8 @@ class _Mark_AttendenceState extends State<Mark_Attendence> {
   int enteredPeriod=0;
   final CollectionReference codeCollection =FirebaseFirestore.instance.collection('codes');
   var studentData=Get.arguments;
+  String stream="";
+  int year=0;
   // var studentStream=studentData[0];
 
 
@@ -53,12 +49,16 @@ class _Mark_AttendenceState extends State<Mark_Attendence> {
 
 
 
+  @override
 
   Widget build(BuildContext context) {
     // log(studentStream);
     // var document = codeCollection.doc(studentStream);
     // String code="";
     final user = Provider.of<IemcrpUser?>(context);
+    stream=studentData[0];
+    id=studentData[1];
+    year=studentData[2];
 
 
 
@@ -77,7 +77,7 @@ class _Mark_AttendenceState extends State<Mark_Attendence> {
     // user.
     // getStream();
     return StreamBuilder<QuerySnapshot>(
-      stream: codeCollection.snapshots(),
+      stream: codeCollection.doc(stream).collection(year.toString()).snapshots(),
       builder: (context,  snapshot) {
 
 
@@ -87,6 +87,7 @@ class _Mark_AttendenceState extends State<Mark_Attendence> {
         var doc = snapshot.data!.docs;
         log("STUDENTSTREAM---   "+studentData[0]);
         log("STUDENTID---   "+studentData[1]);
+        // log("SUDENTYEAR---"+studentData[2]);
 
         doc.forEach((element) {
             // log(element.id);
@@ -96,16 +97,17 @@ class _Mark_AttendenceState extends State<Mark_Attendence> {
             // log(element['code']);
             // code = element['code'];
 
-            if(element.id==studentData[0]) {
+            if(int.parse(element.id) == enteredPeriod) {
           // log("hi");
           //     log(element['code']);
             // setState((){
               code = element['code'];
-              period =element['period'];
+              period = int.parse(element.id);
+              // period =element['period'];
             // });
           }
             log(code);
-            log(period.toString());
+            // log(period.toString());
 
 
 
@@ -143,6 +145,20 @@ class _Mark_AttendenceState extends State<Mark_Attendence> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
+                TextFormField(
+                  decoration: textInputDecoration.copyWith(hintText: 'Enter Period'),
+                  onChanged: (val){
+                    log(val);
+                    setState(() {
+                      if(val=="")
+                        enteredPeriod=0;
+                      else
+                        enteredPeriod=int.parse(val);
+                    });
+                  },
+                ),
+                SizedBox(height: 10,),
                 TextFormField(
                   decoration: textInputDecoration.copyWith(hintText: 'Enter Code'),
                   onChanged: (val){
@@ -159,32 +175,19 @@ class _Mark_AttendenceState extends State<Mark_Attendence> {
 
                 ),
                 SizedBox(height: 10,),
-                TextFormField(
-                  decoration: textInputDecoration.copyWith(hintText: 'Enter Period'),
-                  onChanged: (val){
-                    log(val);
-                    setState(() {
-                      if(val=="")
-                        enteredPeriod=0;
-                      else
-                        enteredPeriod=int.parse(val);
-                    });
-                  },
-                ),
-                SizedBox(height: 10,),
 
                 ElevatedButton(onPressed: () async{
                   String cdate = DateFormat("yyyy-MM-dd").format(DateTime.now());
                   print(cdate);
                   print(user?.uid);
-                  DatabaseService(uid: studentData[1]).updateAttendenceData(period,cdate);
 
                   log("DATE---    "+cdate);
                   log(code);
 
                   log("ENTERED CODE"+ enteredCode);
                   log("ENTERED PERIOD" + enteredPeriod.toString());
-                  if(code==enteredCode && period==enteredPeriod) {
+                  if(code==enteredCode) {
+                    DatabaseService(uid: id).updateAttendenceData(period,cdate);
                     setState(() {
                       status="Attendence Marked";
 

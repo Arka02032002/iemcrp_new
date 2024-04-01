@@ -20,6 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      theme: ThemeData(
+          brightness: Brightness.light,),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: StreamProvider<IemcrpUser?>.value(
           value: AuthService().user,

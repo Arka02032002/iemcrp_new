@@ -24,7 +24,7 @@ class _StudentHomeState extends State<StudentHome> {
     value: DatabaseService().students,
     initialData: null,
     catchError: (_, __) => null,
-    child: Scaffold(
+    child:Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.green[700],
           title: Text('Student'),
@@ -44,6 +44,7 @@ class _StudentHomeState extends State<StudentHome> {
       ),
       backgroundColor: Colors.white,
       body: StudentProfile(),
-    ),);
+    ),
+    );
   }
 }
